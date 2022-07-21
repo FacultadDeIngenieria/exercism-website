@@ -97,6 +97,7 @@ bob.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.cu
 bob.auth_tokens.create!
 
 track_slugs = %w[exercism-prog2-track]
+# TODO MATIC add haskell
 track_slugs.each do |track_slug|
 
   begin
