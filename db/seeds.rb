@@ -102,7 +102,7 @@ track_slugs.each do |track_slug|
   begin
     puts "Adding Track: #{track_slug}"
 
-    repo_url = "https://github.com/universidad-austral-prog2/prog2"
+    repo_url = "https://github.com/FacultadDeIngenieria/exercism-prog2-track"
     repo = Git::Repository.new(repo_url: repo_url)
 
     # Find the first commit in the repo
@@ -138,7 +138,7 @@ Git::SyncMainDocs.()
 
 puts ""
 puts "To use the CLI locally, run: "
-puts "exercism configure -a http://34.125.184.224:3020/api/v1 -t #{auth_token.token}"
+puts "exercism configure -a http://34.125.150.25:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
 ruby = Track.find_by_slug(:ruby)
