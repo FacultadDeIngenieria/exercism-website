@@ -96,7 +96,7 @@ bob.confirm
 bob.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 bob.auth_tokens.create!
 
-track_slugs = %w[prog2]
+track_slugs = %w[exercism-prog2-track]
 track_slugs.each do |track_slug|
 
   begin
