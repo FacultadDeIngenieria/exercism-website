@@ -68,7 +68,6 @@ class User
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
         avatar_url: auth.info.image,
-        confirmed_at: Time.current,
         handle:
       )
 

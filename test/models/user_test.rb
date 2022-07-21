@@ -133,7 +133,8 @@ class UserTest < ActiveSupport::TestCase
     create :user_acquired_badge, user: user, badge: legendary_badge_2, revealed: true
     create :user_acquired_badge, user: user, badge: ultimate_badge_1, revealed: true
 
-    assert_equal [legendary_badge_1, legendary_badge_2, ultimate_badge_1, rare_badge_1, common_badge_1], user.featured_badges
+    assert_equal [legendary_badge_2, legendary_badge_1, ultimate_badge_1, rare_badge_1, common_badge_2],
+      user.featured_badges.order('id desc')
   end
 
   test "revealed_badges" do
@@ -284,5 +285,16 @@ class UserTest < ActiveSupport::TestCase
     User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
 
     user.save!
+  end
+
+  test "may_create_profile?" do
+    user = build :user, reputation: 0
+    refute user.may_create_profile?
+
+    user.update(reputation: 4)
+    refute user.may_create_profile?
+
+    user.update(reputation: 5)
+    assert user.may_create_profile?
   end
 end

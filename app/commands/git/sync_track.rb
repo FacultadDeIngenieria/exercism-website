@@ -23,8 +23,6 @@ module Git
     def call
       return if skip?
 
-      Rails.logger.info "SYNC TRACKS"
-
       fetch_git_repo!
 
       # TODO: (Optional) validate track using configlet to prevent invalid track data

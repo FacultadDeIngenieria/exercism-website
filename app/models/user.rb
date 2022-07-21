@@ -85,6 +85,8 @@ class User < ApplicationRecord
 
   has_many :problem_reports, dependent: :destroy
 
+  has_many :cohort_memberships, dependent: :destroy
+
   # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
@@ -259,4 +261,6 @@ class User < ApplicationRecord
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
+
+  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 end
