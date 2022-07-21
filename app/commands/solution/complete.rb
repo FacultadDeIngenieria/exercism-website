@@ -21,7 +21,6 @@ class Solution
       AwardBadgeJob.perform_later(user, :completer)
 
       record_activity!
-      log_metric!
     end
 
     private
@@ -37,17 +36,14 @@ class Solution
       Rails.logger.error e.message
     end
 
-    def log_metric!
-      Metric::Queue.(:complete_solution, solution.completed_at, solution:, track:, user:)
+    memoize
+    def user
+      solution.user
     end
 
     memoize
-    def user = solution.user
-
-    memoize
-    def exercise = solution.exercise
-
-    memoize
-    def track = solution.track
+    def exercise
+      solution.exercise
+    end
   end
 end

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 type PaginationProps = {
   disabled?: boolean
@@ -15,19 +15,7 @@ export function Pagination({
   setPage,
   around = 2,
 }: PaginationProps) {
-  if (total <= 1) {
-    return null
-  }
-
-  useEffect(() => {
-    if (current > total) {
-      setPage(total)
-    } else if (current < 1) {
-      setPage(1)
-    }
-  }, [total, current])
-
-  if (current < 1 || current > total) {
+  if (total <= 1 || current > total) {
     return null
   }
 

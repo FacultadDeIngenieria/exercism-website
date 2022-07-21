@@ -76,7 +76,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     end
 
     assert_equal :pending, request.reload.status
-    refute Mentor::Discussion.exists?
+    assert_equal 0, Mentor::Discussion.count
   end
 
   test "request not fullfiled if discussion fails" do
@@ -93,7 +93,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     end
 
     assert_equal :pending, request.reload.status
-    refute Mentor::Discussion.exists?
+    assert_equal 0, Mentor::Discussion.count
   end
 
   test "request not fullfiled if content is blank" do
@@ -108,7 +108,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     end
 
     assert_equal :pending, request.reload.status
-    refute Mentor::Discussion.exists?
+    assert_equal 0, Mentor::Discussion.count
   end
 
   test "request not fullfiled if locked" do
@@ -124,7 +124,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     end
 
     assert_equal :pending, request.reload.status
-    refute Mentor::Discussion.exists?
+    assert_equal 0, Mentor::Discussion.count
   end
 
   test "request not fullfiled if mentoring own solution" do
@@ -139,7 +139,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     end
 
     assert_equal :pending, request.reload.status
-    refute Mentor::Discussion.exists?
+    assert_equal 0, Mentor::Discussion.count
   end
 
   test "removes locks" do

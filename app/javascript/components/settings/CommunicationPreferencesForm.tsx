@@ -2,15 +2,10 @@ import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
-import { CommunicationPreference } from '../types'
+import { CommunicationPreferences } from '../types'
 
 type Links = {
   update: string
-}
-
-type CommunicationPreferences = {
-  mentoring: readonly CommunicationPreference[]
-  product: readonly CommunicationPreference[]
 }
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
@@ -19,7 +14,7 @@ export const CommunicationPreferencesForm = ({
   defaultPreferences,
   links,
 }: {
-  defaultPreferences: CommunicationPreferences
+  defaultPreferences: readonly CommunicationPreferences[]
   links: Links
 }): JSX.Element => {
   const [preferences, setPreferences] = useState(defaultPreferences)
@@ -27,14 +22,14 @@ export const CommunicationPreferencesForm = ({
     endpoint: links.update,
     method: 'PATCH',
     body: {
-      communication_preferences: [
-        ...preferences.mentoring,
-        ...preferences.product,
-      ].reduce<Record<string, boolean>>((data, p) => {
-        data[p.key] = p.value
+      communication_preferences: preferences.reduce<Record<string, boolean>>(
+        (data, p) => {
+          data[p.key] = p.value
 
-        return data
-      }, {}),
+          return data
+        },
+        {}
+      ),
     },
   })
 
@@ -48,16 +43,15 @@ export const CommunicationPreferencesForm = ({
   )
 
   const handlePreferenceChange = useCallback(
-    (changedPreference, key: keyof CommunicationPreferences) => {
+    (changedPreference) => {
       return (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPreferences({
-          ...preferences,
-          [key]: preferences[key].map((p) =>
+        setPreferences(
+          preferences.map((p) =>
             p.key === changedPreference.key
               ? { ...changedPreference, value: e.target.checked }
               : p
-          ),
-        })
+          )
+        )
       }
     },
     [preferences]
@@ -66,37 +60,24 @@ export const CommunicationPreferencesForm = ({
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Mentoring</h2>
-      {preferences.mentoring.map((p) => (
-        <label className="c-checkbox-wrapper" key={p.key}>
-          <input
-            type="checkbox"
-            checked={p.value}
-            onChange={handlePreferenceChange(p, 'mentoring')}
-          />
-          <div className="row">
-            <div className="c-checkbox">
-              <GraphicalIcon icon="checkmark" />
+      {preferences.map((p) => {
+        return (
+          <label className="c-checkbox-wrapper" key={p.key}>
+            <input
+              type="checkbox"
+              id="communication_preferences_email_on_mentor_started_discussion_notification"
+              checked={p.value}
+              onChange={handlePreferenceChange(p)}
+            />
+            <div className="row">
+              <div className="c-checkbox">
+                <GraphicalIcon icon="checkmark" />
+              </div>
+              {p.label}
             </div>
-            {p.label}
-          </div>
-        </label>
-      ))}
-      <h2>Product</h2>
-      {preferences.product.map((p) => (
-        <label className="c-checkbox-wrapper" key={p.key}>
-          <input
-            type="checkbox"
-            checked={p.value}
-            onChange={handlePreferenceChange(p, 'product')}
-          />
-          <div className="row">
-            <div className="c-checkbox">
-              <GraphicalIcon icon="checkmark" />
-            </div>
-            {p.label}
-          </div>
-        </label>
-      ))}
+          </label>
+        )
+      })}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
           Change preferences

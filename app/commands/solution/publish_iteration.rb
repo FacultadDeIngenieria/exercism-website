@@ -5,9 +5,10 @@ class Solution
     initialize_with :solution, :iteration_idx
 
     def call
-      solution.update!(published_iteration: iteration)
-      Solution::UpdateSnippet.(solution)
-      Solution::UpdateNumLoc.(solution)
+      solution.update!(
+        published_iteration: iteration,
+        num_loc: num_loc.to_i
+      )
     end
 
     private

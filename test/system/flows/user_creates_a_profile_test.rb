@@ -8,20 +8,12 @@ module Flows
     include RedirectHelpers
 
     test "user creates a profile" do
-      user = create :user, reputation: 0
+      user = create :user
 
       use_capybara_host do
         sign_in!(user)
-        visit intro_profiles_path
+        visit new_profile_path
 
-        assert_text "Get 5 reputation to unlock profile creation."
-
-        user.update!(reputation: 5)
-
-        # Refresh the page
-        visit intro_profiles_path
-
-        click_on "Create a public profile"
         click_on "Create profile"
 
         wait_for_redirect

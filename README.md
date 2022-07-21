@@ -4,49 +4,83 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/maintainability)](https://codeclimate.com/github/exercism/website/maintainability)
 [![View performance data on Skylight](https://badges.skylight.io/typical/VNpB7GqXZDpQ.svg)](https://oss.skylight.io/app/applications/VNpB7GqXZDpQ)
 
-This is the website component of Exercism.
-It is Ruby on Rails app, backed by various services.
+This is the website component of Exercism. It is Ruby on Rails app, backed by MySQL. It also relies on Redis and AnyCable.
 
-**Please note: This repo is treated as an internal repo. That means the source code is public, but we do not accept Pull Requests and we do not officially support the app being run locally.**
+## Running within our development-environment
 
-## Setup
+Our supported development setup is via our [development environment](https://github.com/exercism/development-environment) repo. Please follow the instructions there. _You can also run locally without Docker, but this is unsupported - see the next section for details._
 
-These are instructions to get things working locally.
-While you are welcome to try and follow these instructions and set up this repo on your local machine, we provide no guarantee of things working on your specific local setup.
+### Setup database
 
-### Prerequistes
+Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to setup the database. All these are run "inside" the existing `website` container that needs to already have been started.
 
+```sh
+# seed the database
+./bin/script website seed-db
+
+# reset the database (drop -> migrate -> seed)
+./bin/script website reset-db
+```
+
+### Running tests
+
+Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to run tests. All these are run "inside" the existing `website` container that needs to already have been started.
+
+```sh
+# run rubocop to lint the codebase
+./bin/script website lint
+
+# run rails test
+./bin/script website run-tests
+
+# run rails test:system
+./bin/script website run-system-tests
+
+# run yarn test
+./bin/script website run-js-tests
+```
+
+#### Running single tests
+
+Often you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
+
+```bash
+# run rails test test/commands/track/create_test.rb
+./bin/script website run-tests test/commands/track/create_test.rb
+
+# run rails test:system test/system/components/tooltips/tooltip_test.rb
+./bin/script website run-system-tests test/system/components/tooltips/tooltip_test.rb
+
+# run yarn test test/javascript/components/student/TracksList/Track.test.js
+./bin/script website run-js-tests test/javascript/components/student/TracksList/Track.test.js
+```
+
+### Local setup
+
+The website can be also be setup and run locally. This is unsupported.
 You need the following installed:
 
-- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
+- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile`)
 - MySQL
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
-- [Docker](https://www.docker.com/)
+- [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
+- [S3Mock](https://github.com/adobe/s3mock)
 
-#### Mac-specific
+Run localstack for a local AWS, and elasticsearch seperately:
+
+```bash
+docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
+docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
+```
+
+#### Mac-Specific
 
 The main dependencies can be installed via homebrew
 
-- `brew install libgit2 cmake pkg-config anycable-go hivemind node yarn`
+- `brew install libgit2 cmake pkg-config anycable-go hivemind`
 
-#### Unix-specific
-
-What dependencies you need to install depends on your Unix distribution.
-
-For example, for Ubuntu you'll need to install:
-
-`sudo apt-get install software-properties-common libmariadb-dev cmake ruby-dev ruby-bundler ruby-railties`
-
-You'll also need to install [nodejs](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/getting-started/install).
-
-#### Windows-specific
-
-As we recommend using WSL, see the Unix-specific instructions listed above.
-
-For information on setting up WSL, check [the installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install).
-
-### Configure the database
+#### Configure the database
 
 Running these commands inside a mysql console will get a working database setup:
 
@@ -67,19 +101,9 @@ Tests are parallelized so you need a db per processor, so you need to do this fo
 GRANT ALL PRIVILEGES ON `exercism_test-0`.* TO 'exercism'@'localhost';
 ```
 
-### Running local AWS
+#### Run the setup script
 
-To run the app you must have a local version of AWS running.
-We use localstack and opensearch, and run them via Docker.
-
-```bash
-docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
-docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
-```
-
-### Run the setup script
-
-The following scripts configure exercism to work with your setup.
+Run the setup scripts:
 
 ```
 bundle install
@@ -89,12 +113,9 @@ EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 
 **Note: you will need to do this every time you reset dynamodb, which happens when Docker is restarted.**
 
-### Running the local servers
+#### Running the local servers
 
 We have a Procfile which executes the various commands need to run Exercism locally.
-
-#### Mac-specific
-
 On MacOSX we recommend using `hivemind` to manage this, which can be installed via `brew install hivemind`.
 
 To get everything started you can then run:
@@ -103,21 +124,12 @@ To get everything started you can then run:
 hivemind -p 3020 Procfile.dev
 ```
 
-#### Unix-specific
+## Configure Solargraph
 
-On Unix systems we recommend using `overmind` to manage this, which can be installed using [these instructions](https://github.com/DarthSim/overmind#installation).
+If you'd like to use solargraph, the gem is in the file. You need to run and set `solargraph.useBundler` to `true` in your config. I have this working well with coc-solargraph. [This article](http://blog.jamesnewton.com/setting-up-coc-nvim-for-ruby-development) was helpful for setting it up.
 
-To get everything started you can then run:
-
-```bash
-overmind -p 3020 Procfile.dev
-```
-
-#### Windows-specific
-
-As we recommend using WSL, see the Unix-specific instructions listed above.
-
-For information on setting up WSL, check [the installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install).
+- `bundle exec yard gems`
+- `solargraph bundle`
 
 ## Code Standards
 
@@ -165,13 +177,3 @@ git add config.json
 git commit -m "First commit"
 git push origin head
 ```
-
-## Solargraph
-
-Solargraph allows for code suggestions to appear in your editor.
-
-If you'd like to use solargraph, the gem is in the file.
-You need to run and set `solargraph.useBundler` to `true` in your config. I have this working well with coc-solargraph. [This article](http://blog.jamesnewton.com/setting-up-coc-nvim-for-ruby-development) was helpful for setting it up.
-
-- `bundle exec yard gems`
-- `solargraph bundle`
