@@ -33,11 +33,6 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
-  def self.for_repo(repo)
-    slug = repo.gsub(/-(test-runner|analyzer|representer)$/, '').split('/').last
-    find_by(slug:)
-  end
-
   def to_param
     slug
   end

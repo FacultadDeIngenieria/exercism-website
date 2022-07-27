@@ -134,8 +134,7 @@ export const loadLanguageCompartment = async (
       return compartment.of(StreamLanguage.define(groovy))
     }
     case 'haskell':
-    case 'purescript':
-    case 'unison': {
+    case 'purescript': {
       const { haskell } = await import('@codemirror/legacy-modes/mode/haskell')
       return compartment.of(StreamLanguage.define(haskell))
     }

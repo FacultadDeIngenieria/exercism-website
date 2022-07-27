@@ -31,10 +31,5 @@ FactoryBot.define do
       finished_at { Time.current }
       finished_by { :student }
     end
-
-    trait :external do
-      external { true }
-      request { create :mentor_request, :external, solution:, status: :fulfilled }
-    end
   end
 end

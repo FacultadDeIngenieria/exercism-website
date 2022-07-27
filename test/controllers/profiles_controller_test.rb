@@ -58,28 +58,19 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   # New #
   #######
   test "new: shows page" do
-    user = create :user, reputation: 10
-    sign_in!(user)
+    sign_in!
 
     get new_profile_url
     assert_template "profiles/new"
   end
 
   test "new: redirects_to own profile" do
-    user = create :user, reputation: 10
+    user = create :user
     create :user_profile, user: user
     sign_in!(user)
 
     get new_profile_url
     assert_redirected_to profile_path(user)
-  end
-
-  test "new: redirects to intro if the user hasn't unlocked creating a profile" do
-    user = create :user, reputation: 0
-    sign_in!(user)
-
-    get new_profile_url
-    assert_redirected_to intro_profiles_path
   end
 
   ################

@@ -24,6 +24,6 @@ class ProcessIterationForDiscussionsJobTest < ActiveJob::TestCase
 
     ProcessIterationForDiscussionsJob.perform_now(iteration)
 
-    refute User::Notification.exists?
+    assert_equal 0, User::Notification.count
   end
 end

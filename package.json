@@ -46,7 +46,6 @@
     "fontfaceobserver": "^2.1.0",
     "global": "^4.4.0",
     "highlight.js": "^11.5.1",
-    "highlightjs-cobol": "^0.2.13",
     "highlightjs-sap-abap": "^0.2.0",
     "humps": "^2.0.1",
     "lang-julia": "^0.1.0",
@@ -138,6 +137,19 @@
     "test-watch": "jest --watchAll",
     "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/website.css",
     "build": "./app/javascript/esbuild.js"
+  },
+  "jest": {
+    "roots": [
+      "test/javascript"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/javascript/setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "^[./a-zA-Z0-9$_-]+\\.svg$": "<rootDir>/app/javascript/images/GlobalImageStub.js",
+      "manifest.json$": "<rootDir>/app/javascript/__mocks__/fileMock.js"
+    },
+    "testEnvironment": "jsdom"
   },
   "husky": {
     "hooks": {

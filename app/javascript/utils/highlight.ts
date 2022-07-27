@@ -1,10 +1,8 @@
 import * as highlighter from 'highlight.js'
 import React, { useEffect, useRef } from 'react'
 import setupABAP from 'highlightjs-sap-abap'
-import setupCobol from 'highlightjs-cobol'
 
 highlighter.default.registerLanguage('abap', setupABAP)
-highlighter.default.registerLanguage('cobol', setupCobol)
 
 highlighter.default.configure({
   throwUnescapedHTML: true,
@@ -117,7 +115,7 @@ export const useHighlighting = <T>() => {
       return
     }
 
-    highlightAll(parentRef.current as unknown as ParentNode)
+    highlightAll((parentRef.current as unknown) as ParentNode)
   }, [])
 
   return parentRef

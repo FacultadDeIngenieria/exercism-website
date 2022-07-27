@@ -20,10 +20,7 @@ module Donations
           end
 
           unless user.stripe_customer_id
-            customer = Stripe::Customer.create(
-              email: user.email,
-              metadata: { user_id: user.id }
-            )
+            customer = Stripe::Customer.create(email: user.email)
             user.update_column(:stripe_customer_id, customer.id)
           end
         end

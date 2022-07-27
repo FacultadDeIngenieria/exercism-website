@@ -59,10 +59,3 @@ declare module 'highlightjs-sap-abap' {
 
   export default setup
 }
-
-declare module 'highlightjs-cobol' {
-  import { LanguageFn } from 'highlight.js'
-  const setup: LanguageFn
-
-  export default setup
-}

@@ -64,12 +64,10 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
   end
 
   test "solution is not updated if iteration is not latest" do
-    solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create :submission
     create :submission_file, submission: submission, content: "Some source code"
     iteration = create :iteration, submission: submission
-    other_iteration = create :iteration, solution: solution, num_loc: 33
-    solution.update(num_loc: other_iteration.num_loc)
+    create :iteration, solution: submission.solution
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -85,17 +83,16 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     CalculateLinesOfCodeJob.perform_now(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
-    assert_equal other_iteration.num_loc, solution.reload.num_loc
+    assert_nil iteration.solution.reload.num_loc
   end
 
   test "solution is updated if iteration is published" do
-    solution = create :concept_solution, :published
-    submission = create :submission, solution: solution
+    submission = create :submission
     create :submission_file, submission: submission, content: "Some source code"
-    create :iteration, solution: solution
+    create :iteration, solution: submission.solution
     iteration = create :iteration, submission: submission
-    create :iteration, solution: solution
-    solution.update(published_iteration: iteration)
+    create :iteration, solution: submission.solution
+    submission.solution.update(published_iteration: iteration)
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -111,17 +108,16 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     CalculateLinesOfCodeJob.perform_now(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
-    assert_equal iteration.num_loc, solution.reload.num_loc
+    assert_equal num_loc, iteration.solution.reload.num_loc
   end
 
   test "solution is not updated if another iteration is published" do
-    solution = create :concept_solution
     submission = create :submission
     create :submission_file, submission: submission, content: "Some source code"
-    published_iteration = create :iteration, solution: submission.solution, num_loc: 33
+    older_iteration = create :iteration, solution: submission.solution
     iteration = create :iteration, submission: submission
     create :iteration, solution: submission.solution
-    solution.update(published_iteration:, num_loc: published_iteration.num_loc)
+    submission.solution.update(published_iteration: older_iteration)
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -137,6 +133,6 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     CalculateLinesOfCodeJob.perform_now(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
-    assert_equal published_iteration.num_loc, solution.reload.num_loc
+    assert_nil iteration.solution.reload.num_loc
   end
 end

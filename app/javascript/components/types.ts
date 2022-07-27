@@ -527,7 +527,7 @@ export type PullRequest = {
   mergedBy: string
 }
 
-export type CommunicationPreference = {
+export type CommunicationPreferences = {
   key: string
   label: string
   value: boolean
