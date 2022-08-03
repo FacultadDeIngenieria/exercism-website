@@ -6,7 +6,7 @@ class SyncTracksJob < ApplicationJob
   def perform
     ::Track.find_each do |track|
       Rails.logger.info "SYNC TRACK: "
-      Rails.logger.info track
+      Rails.logger.info track.inspect
       Git::SyncTrack.(track, force_sync: true)
     end
   end
