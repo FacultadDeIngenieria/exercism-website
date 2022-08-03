@@ -36,6 +36,8 @@ module Git
       Rails.logger.info head_git_track.inspect
       blurb = head_git_track.blurb[0, 350]
 
+      Rails.logger.info "SYNC TRACKS - fetched"
+
       # Concepts must be synced before tracks
       concepts = sync_concepts!
       sync_concept_exercises!
