@@ -33,6 +33,7 @@ module Git
 
       # TODO: (Optional) We should raise a bugsnag here too. Note: this is not needed if
       # we validate a track using configlet
+      Rails.logger.info head_git_track.inspect
       blurb = head_git_track.blurb[0, 350]
 
       # Concepts must be synced before tracks
