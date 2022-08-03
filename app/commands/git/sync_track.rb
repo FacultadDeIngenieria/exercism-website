@@ -33,7 +33,6 @@ module Git
 
       # TODO: (Optional) We should raise a bugsnag here too. Note: this is not needed if
       # we validate a track using configlet
-      Rails.logger.info head_git_track.inspect
       blurb = head_git_track.blurb[0, 350]
 
       Rails.logger.info "SYNC TRACKS - fetched"
@@ -133,6 +132,8 @@ module Git
           practiced_concepts: exercise_concepts(exercise_config[:practices]),
           has_test_runner: git_exercise.has_test_runner?
         )
+        Rails.logger.info "SYNC EXERCISE - created"
+        Rails.logger.info exercise.inspect
         Git::SyncPracticeExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
       end
     end
