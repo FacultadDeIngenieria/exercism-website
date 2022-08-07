@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :ensure_onboarded!
   before_action :mark_notifications_as_read!
-
+  protect_from_forgery with: :exception
   def process_action(*args)
     super
   rescue ActionDispatch::Http::MimeNegotiation::InvalidType,
