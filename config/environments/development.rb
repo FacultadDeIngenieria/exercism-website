@@ -78,8 +78,8 @@ Rails.application.configure do
   config.session_store :cookie_store, key: "_exercism", domain: "facultaddeingenieria.duckdns.org"
 
   config.hosts << "facultaddeingenieria.duckdns.org"
-  #config.hosts << "website" if ENV['EXERCISM_DOCKER']
-  #config.hosts << /.*.ngrok.io/
+  config.hosts << "website" if ENV['EXERCISM_DOCKER']
+  config.hosts << /.*.ngrok.io/
 end
 
 Rails.application.routes.default_url_options = {
