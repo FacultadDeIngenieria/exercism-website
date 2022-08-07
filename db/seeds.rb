@@ -139,7 +139,7 @@ Git::SyncMainDocs.()
 
 puts ""
 puts "To use the CLI locally, run: "
-puts "exercism configure -a http://34.125.150.25:3020/api/v1 -t #{auth_token.token}"
+puts "exercism configure -a http://facultaddeingenieria.duckdns.org:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
 ruby = Track.find_by_slug(:ruby)
