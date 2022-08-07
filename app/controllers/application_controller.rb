@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   extend Mandate::Memoize
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
-
+  skip_before_action :verify_authenticity_token
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
