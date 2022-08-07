@@ -1,6 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.hosts << "facultaddeingenieria.duckdns.org" # Whitelist one hostname
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
     if AnyCable::Rails.enabled?
