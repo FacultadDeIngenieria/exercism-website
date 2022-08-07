@@ -169,7 +169,7 @@ Each Component has a route and view to enable it be rendered both for developmen
 The routes live in the `test` namespace of the `config.routes`
 The views live in `app/views/test/components/**/XXX.html.haml`.
 The controllers live in `app/controllers/test/components/**/XXX_controller.rb` and should inherit from `Test::BaseController`.
-The Component can be then accessed through `http://localhost:3020/test/components/...`
+The Component can be then accessed through `http://localhost:80/test/components/...`
 See `app/controllers/test/components/common/copy_to_clipboard_button_controller.rb` for an idiomatic example.
 
 Finally, each Component has Rails system tests, which test the correct HTML is rendered.

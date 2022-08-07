@@ -20,4 +20,4 @@ if [ "${num_users}" -eq 0 ]; then
 fi
 
 echo "Start up the website stack"
-overmind start -p 3020 -s /usr/src/app/tmp/overmind.sock -f ./Procfile.docker.dev
+overmind start -p 80 -s /usr/src/app/tmp/overmind.sock -f ./Procfile.docker.dev

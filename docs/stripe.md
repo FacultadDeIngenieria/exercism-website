@@ -42,7 +42,7 @@ We also cache these values on the user model to avoid lots of db lookups.
 You test webhooks locally you can run:
 
 ```
-stripe listen --forward-to facultaddeingenieria.duckdns.org:3020/webhooks/stripe
+stripe listen --forward-to facultaddeingenieria.duckdns.org:80/webhooks/stripe
 ```
 
 Then trigger events with:

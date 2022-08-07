@@ -83,5 +83,5 @@ Rails.application.configure do
 end
 
 Rails.application.routes.default_url_options = {
-  host: "http://facultaddeingenieria.duckdns.org:3020"
+  host: "http://facultaddeingenieria.duckdns.org"
 }

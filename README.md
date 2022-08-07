@@ -121,7 +121,7 @@ On MacOSX we recommend using `hivemind` to manage this, which can be installed v
 To get everything started you can then run:
 
 ```bash
-hivemind -p 3020 Procfile.dev
+hivemind -p 80 Procfile.dev
 ```
 
 ## Configure Solargraph

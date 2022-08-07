@@ -1,4 +1,4 @@
-server: bin/rails server -p 3020
+server: bin/rails server -p 80
 anycable: bundle exec anycable
 sidekiq: bundle exec sidekiq
 ws: anycable-go --host='facultaddeingenieria.duckdns.org' --rpc_host='facultaddeingenieria.duckdns.org' --port=3334
