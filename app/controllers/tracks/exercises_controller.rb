@@ -2,9 +2,9 @@ class Tracks::ExercisesController < ApplicationController
   before_action :use_track
   before_action :use_exercise, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
-
+  skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
-  skip_before_action :verify_authenticity_token, only: :start
+  # skip_before_action :verify_authenticity_token, only: :start
   disable_site_header! only: [:edit]
 
   def index
