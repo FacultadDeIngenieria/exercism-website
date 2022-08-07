@@ -77,7 +77,7 @@ Rails.application.configure do
   # TODO: Change to exercism on launch
   config.session_store :cookie_store, key: "_exercism", domain: "facultaddeingenieria.duckdns.org"
 
-  config.hosts << nil
+  config.hosts << "facultaddeingenieria.duckdns.org"
   #config.hosts << "website" if ENV['EXERCISM_DOCKER']
   #config.hosts << /.*.ngrok.io/
 end
