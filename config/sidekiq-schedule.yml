@@ -5,43 +5,43 @@ clear_mentor_request_locks:
   queue: cron
 
 # Every minute
-sweep_reputation_periods:
-  interval: "1m"
-  class: "SweepReputationPeriodsJob"
-  queue: reputation
+#sweep_reputation_periods:
+#  interval: "1m"
+#  class: "SweepReputationPeriodsJob"
+#  queue: reputation
 
 # 3am every day (avoid DST issues)
-mark_outdated_reputation_week_periods:
-  cron: "1 0 * * *"
-  class: "MarkOutdatedReputationPeriodsJob"
-  queue: reputation
-  args: ["week"]
+#mark_outdated_reputation_week_periods:
+#  cron: "1 0 * * *"
+#  class: "MarkOutdatedReputationPeriodsJob"
+#  queue: reputation
+#  args: ["week"]
 
 # 4am every date (1hr after above)
-mark_outdated_reputation_month_periods:
-  cron: "5 0 * * *"
-  class: "MarkOutdatedReputationPeriodsJob"
-  queue: reputation
-  args: ["month"]
+#mark_outdated_reputation_month_periods:
+#  cron: "5 0 * * *"
+#  class: "MarkOutdatedReputationPeriodsJob"
+#  queue: reputation
+#  args: ["month"]
 
 # 5am every date (1hr after above)
-mark_outdated_reputation_year_periods:
-  cron: "15 0 * * *"
-  class: "MarkOutdatedReputationPeriodsJob"
-  queue: reputation
-  args: ["year"]
+#mark_outdated_reputation_year_periods:
+#  cron: "15 0 * * *"
+#  class: "MarkOutdatedReputationPeriodsJob"
+#  queue: reputation
+#  args: ["year"]
 
 # 1am Monday
-fetch_and_sync_all_pull_requests_reputation:
-  cron: "0 1 * * 1"
-  class: "FetchAndSyncAllPullRequestsReputationJob"
-  queue: dribble
+#fetch_and_sync_all_pull_requests_reputation:
+#  cron: "0 1 * * 1"
+#  class: "FetchAndSyncAllPullRequestsReputationJob"
+#  queue: dribble
 
 # 1am Tuesday
-sync_issues_and_tasks:
-  cron: "0 1 * * 2"
-  class: "SyncIssuesAndTasksJob"
-  queue: dribble
+#sync_issues_and_tasks:
+#  cron: "0 1 * * 2"
+#  class: "SyncIssuesAndTasksJob"
+#  queue: dribble
 
 # 1am Wednesday
 sync_tracks:
@@ -49,19 +49,19 @@ sync_tracks:
   class: "SyncTracksJob"
   queue: dribble
 
-sync_team_permissions:
-  cron: "0 1 * * 3"
-  class: "SyncTeamPermissionsJob"
-  queue: dribble
+#sync_team_permissions:
+#  cron: "0 1 * * 3"
+#  class: "SyncTeamPermissionsJob"
+#  queue: dribble
 
 # 1am Thursday
-update_median_wait_times:
-  cron: "0 1 * * 4"
-  class: "UpdateMedianWaitTimesJob"
-  queue: dribble
+#update_median_wait_times:
+#  cron: "0 1 * * 4"
+#  class: "UpdateMedianWaitTimesJob"
+#  queue: dribble
 
 # 12mins past every hour
-nudge_users_to_request_mentoring:
-  cron: "12 * * * *"
-  class: "NudgeUsersToRequestMentoringJob"
-  queue: dribble
+#nudge_users_to_request_mentoring:
+#  cron: "12 * * * *"
+#  class: "NudgeUsersToRequestMentoringJob"
+#  queue: dribble
